@@ -15,12 +15,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $success = mail($receiving_email_address, $subject, $message, $headers);
 
     if ($success) {
-        echo 'success';
+        echo 'Enviado con éxito, gracias por contactarte con nosotros.';
     } else {
         echo 'error';
     }
 } else {
-    echo 'Invalid request';
+    echo 'No enviado, reintentar.';
 }
 
 function test_input($data) {
