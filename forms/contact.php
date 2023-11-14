@@ -1,36 +1,32 @@
 <?php
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $receiving_email_address = 'tomicampos2233@gmail.com';
 
- //Configurar correo al cual va a recibir el contacto de losa clientes
-  $receiving_email_address = 'tomicampos2233@gmail.com';
+    $name = test_input($_POST['name']);
+    $email = test_input($_POST['email']);
+    $subject = test_input($_POST['subject']);
+    $message = test_input($_POST['message']);
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+    $headers = "From: $email" . "\r\n" .
+               "Reply-To: $email" . "\r\n" .
+               "X-Mailer: PHP/" . phpversion();
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = $_POST['subject'];
+    $success = mail($receiving_email_address, $subject, $message, $headers);
 
-  // Descomentar en caso de que se vaya a utilizar servidor de correos SMTP
-  /*
-  $contact->smtp = array(
-    'host' => 'localhost',
-    'username' => 'test',
-    'password' => 'test',
-    'port' => '587'
-  );
-*/
+    if ($success) {
+        echo 'success';
+    } else {
+        echo 'error';
+    }
+} else {
+    echo 'Invalid request';
+}
 
-  $contact->add_message( $_POST['name'], 'From');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['message'], 'Message', 10);
-
-  echo $contact->send();
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 ?>
