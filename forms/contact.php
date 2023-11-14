@@ -1,26 +1,49 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require './PHPMailer/src/Exception.php';
+require './PHPMailer/src/PHPMailer.php';
+require './PHPMailer/src/SMTP.php';
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $receiving_email_address = 'tomicampos2233@gmail.com';
+    $receiving_email_address = 'contacto@degliasoluciones.com'; 
 
     $name = test_input($_POST['name']);
     $email = test_input($_POST['email']);
     $subject = test_input($_POST['subject']);
     $message = test_input($_POST['message']);
 
-    $headers = "From: $email" . "\r\n" .
-               "Reply-To: $email" . "\r\n" .
-               "X-Mailer: PHP/" . phpversion();
+    $mail = new PHPMailer(true);
 
-    $success = mail($receiving_email_address, $subject, $message, $headers);
+    try {
+        // Configuración del servidor SMTP (Gmail)
+        $mail->SMTPDebug = 0;
+        $mail->isSMTP();
+        $mail->Host = 'smtp.hostinger.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'contacto@degliasoluciones.com'; 
+        $mail->Password = 'TostadaconManteca.8'; 
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port = 465;
 
-    if ($success) {
-        echo 'Enviado con éxito, gracias por contactarte con nosotros.';
-    } else {
-        echo 'error';
+        // Configuración del correo
+        $mail->setFrom($email, $name);
+        $mail->addAddress($receiving_email_address);
+        $mail->Subject = $subject;
+        $mail->Body = $message;
+
+        // Enviar el correo
+        $mail->send();
+
+        echo 'Enviado con éxito. Gracias por contactarte con nosotros!';
+    } catch (Exception $e) {
+        echo 'Error';
     }
 } else {
-    echo 'No enviado, reintentar.';
+    echo 'Acceso no permitido.';
 }
 
 function test_input($data) {
