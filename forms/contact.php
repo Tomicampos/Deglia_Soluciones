@@ -6,23 +6,22 @@ error_reporting(E_ALL);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Incluir la biblioteca PHPMailer
-require './PHPMailer/Exception.php';
-require './PHPMailer/PHPMailer.php';
-require './PHPMailer/SMTP.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/PHPMailer/Exception.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/PHPMailer/PHPMailer.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/PHPMailer/SMTP.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Configuración del servidor de correo
+
     $mail = new PHPMailer(true);
     $mail->isSMTP();
     $mail->Host = 'smtp.hostinger.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'contacto@degliasoluciones.com'; // Cambiar a tu dirección de correo
-    $mail->Password = 'TostadaconManteca.8'; // Cambiar a tu contraseña
-    $mail->SMTPSecure = 'ssl'; // Puedes cambiar a 'ssl' si es necesario
-    $mail->Port = 465; // Puedes cambiar el puerto según la configuración de tu servidor
+    $mail->Username = 'contacto@degliasoluciones.com'; 
+    $mail->Password = 'TostadaconManteca.8'; 
+    $mail->SMTPSecure = 'ssl'; 
+    $mail->Port = 465; 
 
-    // Destinatario del correo
+    //Mail donde llega el contacto
     $receiving_email_address = 'contacto@degliasoluciones.com';
 
     // Recuperar datos del formulario
