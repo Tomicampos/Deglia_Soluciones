@@ -6,9 +6,9 @@ error_reporting(E_ALL);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require $_SERVER['DOCUMENT_ROOT'] . '/PHPMailer/Exception.php';
-require $_SERVER['DOCUMENT_ROOT'] . '/PHPMailer/PHPMailer.php';
-require $_SERVER['DOCUMENT_ROOT'] . '/PHPMailer/SMTP.php';
+require $_SERVER['DOCUMENT_ROOT'] . './PHPMailer/Exception.php';
+require $_SERVER['DOCUMENT_ROOT'] . './PHPMailer/PHPMailer.php';
+require $_SERVER['DOCUMENT_ROOT'] . './PHPMailer/SMTP.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
