@@ -6,23 +6,28 @@ error_reporting(E_ALL);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require $_SERVER['DOCUMENT_ROOT'] . './PHPMailer/Exception.php';
-require $_SERVER['DOCUMENT_ROOT'] . './PHPMailer/PHPMailer.php';
-require $_SERVER['DOCUMENT_ROOT'] . './PHPMailer/SMTP.php';
+// Utiliza __DIR__ para obtener el directorio actual del script
+require __DIR__ . '/vendor/autoload.php';  // Requiere la biblioteca Dotenv
+require __DIR__ . '/PHPMailer/Exception.php';
+require __DIR__ . '/PHPMailer/PHPMailer.php';
+require __DIR__ . '/PHPMailer/SMTP.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Cargar variables de entorno desde el archivo .env
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
 
     $mail = new PHPMailer(true);
     $mail->isSMTP();
-    $mail->Host = 'smtp.hostinger.com';
+    $mail->Host = $_ENV['SMTP_HOST'];
     $mail->SMTPAuth = true;
-    $mail->Username = 'contacto@degliasoluciones.com'; 
-    $mail->Password = 'TostadaconManteca.8'; 
+    $mail->Username = $_ENV['SMTP_USER']; 
+    $mail->Password = $_ENV['SMTP_PASS']; 
     $mail->SMTPSecure = 'ssl'; 
-    $mail->Port = 465; 
+    $mail->Port = 465;
 
     //Mail donde llega el contacto
-    $receiving_email_address = 'contacto@degliasoluciones.com';
+    $receiving_email_address = 'tomicampos2233@gmail.com';
 
     // Recuperar datos del formulario
     $name = test_input($_POST['name']);
